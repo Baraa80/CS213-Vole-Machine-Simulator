@@ -1,0 +1,54 @@
+@startuml
+class Memory {
+    - cells: string[256]
+    + Memory()
+    + getCell(address: int): string
+    + setCell(address: int, value: string): void
+    + displayMemory(): void
+}
+
+class RegisterBank {
+    - registers: string[16]
+    + RegisterBank()
+    + getRegister(regNum: int): string
+    + setRegister(regNum: int, value: string): void
+    + displayRegisters(): void
+}
+
+class CPU {
+    - pc: int
+    - ir: string
+    - isHalted: bool
+    + CPU()
+    + fetch(memory: Memory): void
+    + decodeAndExecute(memory: Memory, registers: RegisterBank): void
+    + getPC(): int
+    + setPC(val: int): void
+    + getIR(): string
+    + isHaltedStatus(): bool
+}
+
+class Instruction {
+    - opCode: char
+    - regR: int
+    - operandXY: string
+    + Instruction(rawHex: string)
+    + isValid(): bool
+}
+
+class Simulator {
+    - cpu: CPU
+    - memory: Memory
+    - registers: RegisterBank
+    + Simulator()
+    + loadProgramFromFile(filePath: string, startAddress: int): bool
+    + runAll(): void
+    + step(): void
+    + displayStatus(): void
+}
+
+Simulator *-- CPU
+Simulator *-- Memory
+Simulator *-- RegisterBank
+CPU ..> Instruction : decodes
+@enduml
