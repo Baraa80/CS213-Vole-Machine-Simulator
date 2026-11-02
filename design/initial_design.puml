@@ -1,54 +1,139 @@
 @startuml
-class Memory {
-    - cells: string[256]
-    + Memory()
-    + getCell(address: int): string
-    + setCell(address: int, value: string): void
-    + displayMemory(): void
-}
+title Vole Machine Simulator - Refined Final Design
 
-class RegisterBank {
-    - registers: string[16]
-    + RegisterBank()
-    + getRegister(regNum: int): string
-    + setRegister(regNum: int, value: string): void
-    + displayRegisters(): void
-}
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+skinparam nodesep 40
+skinparam ranksep 55
 
-class CPU {
-    - pc: int
-    - ir: string
-    - isHalted: bool
-    + CPU()
-    + fetch(memory: Memory): void
-    + decodeAndExecute(memory: Memory, registers: RegisterBank): void
-    + getPC(): int
-    + setPC(val: int): void
-    + getIR(): string
-    + isHaltedStatus(): bool
-}
-
-class Instruction {
-    - opCode: char
-    - regR: int
-    - operandXY: string
-    + Instruction(rawHex: string)
-    + isValid(): bool
+class ConsoleUI {
+  - simulator: Simulator&
+  + ConsoleUI(simulator: Simulator&)
+  + run(): void
+  - showMainMenu(): void
+  - handleLoadProgram(): void
+  - handleEditRegister(): void
+  - handleEditMemory(): void
+  - handleRunAll(): void
+  - handleStepByStep(): void
+  - readHex(prompt: string): int
+  - askExitOrLoadAnother(): bool
 }
 
 class Simulator {
-    - cpu: CPU
-    - memory: Memory
-    - registers: RegisterBank
-    + Simulator()
-    + loadProgramFromFile(filePath: string, startAddress: int): bool
-    + runAll(): void
-    + step(): void
-    + displayStatus(): void
+  - cpu: CPU
+  - memory: Memory
+  - registers: RegisterBank
+  - screen: Screen
+  - loader: ProgramLoader
+  - {static} MAX_STEPS: int = 10000
+  + Simulator()
+  + loadProgram(filePath: string, startAddress: int): bool
+  + getLoadError(): string
+  + setRegister(regNum: int, value: uint8_t): bool
+  + setMemoryCell(address: int, value: uint8_t): bool
+  + step(): bool
+  + runAll(): void
+  + reset(): void
+  + isHalted(): bool
+  + displayStatus(): void
 }
 
-Simulator *-- CPU
-Simulator *-- Memory
-Simulator *-- RegisterBank
+class CPU {
+  - pc: uint8_t
+  - ir: string
+  - halted: bool
+  - alu: ALU
+  + CPU()
+  + fetch(memory: Memory&): void
+  + decode(): Instruction
+  + execute(instr: Instruction, memory: Memory&, registers: RegisterBank&): void
+  + step(memory: Memory&, registers: RegisterBank&): bool
+  + reset(startAddress: uint8_t): void
+  + getPC(): uint8_t
+  + getIR(): string
+  + isHalted(): bool
+}
+
+class ALU {
+  + addTwosComplement(a: uint8_t, b: uint8_t): uint8_t
+  + addFloatingPoint(a: uint8_t, b: uint8_t): uint8_t
+  + bitwiseOr(a: uint8_t, b: uint8_t): uint8_t
+  + bitwiseAnd(a: uint8_t, b: uint8_t): uint8_t
+  + bitwiseXor(a: uint8_t, b: uint8_t): uint8_t
+  + rotateRight(value: uint8_t, times: int): uint8_t
+  - decodeFloat(byte: uint8_t): double
+  - encodeFloat(value: double): uint8_t
+}
+
+class Memory {
+  - cells: uint8_t[256]
+  - screen: Screen&
+  - {static} SIZE: int = 256
+  - {static} SCREEN_ADDRESS: uint8_t = 0xFF
+  + Memory(screen: Screen&)
+  + read(address: uint8_t): uint8_t
+  + write(address: uint8_t, value: uint8_t): void
+  + clear(): void
+  + display(): void
+}
+
+class RegisterBank {
+  - registers: uint8_t[16]
+  - {static} COUNT: int = 16
+  + RegisterBank()
+  + read(regNum: int): uint8_t
+  + write(regNum: int, value: uint8_t): void
+  + isValidRegister(regNum: int): bool
+  + clear(): void
+  + display(): void
+}
+
+class Screen {
+  - buffer: string
+  + Screen()
+  + write(value: uint8_t): void
+  + getContent(): string
+  + clear(): void
+  + display(): void
+}
+
+class Instruction {
+  - raw: string
+  - opCode: uint8_t
+  - r, s, t, x, xy: uint8_t
+  + Instruction(rawHex: string)
+  + isValid(): bool
+  + getOpCode(): uint8_t
+  + getR(): uint8_t
+  + getS(): uint8_t
+  + getT(): uint8_t
+  + getX(): uint8_t
+  + getXY(): uint8_t
+}
+
+class ProgramLoader {
+  - lastError: string
+  - errorLine: int
+  + load(filePath: string, startAddress: int, memory: Memory&): bool
+  + isValidStartAddress(address: int): bool
+  + getLastError(): string
+  - readInstructionLines(filePath: string): vector<string>
+}
+
+ConsoleUI -down-> Simulator : drives
+Simulator -down-> CPU
+Simulator -down-> Memory
+Simulator -down-> RegisterBank
+Simulator -right-> ProgramLoader
+Simulator -down-> Screen
+
+CPU -right-> ALU
 CPU ..> Instruction : decodes
+CPU ..> Memory : fetch/load/store
+CPU ..> RegisterBank : reads / writes
+
+Memory -down-> Screen : memory-mapped I/O (address FF)
+ProgramLoader ..> Instruction : validates
+ProgramLoader ..> Memory : writes program
 @enduml
