@@ -1,27 +1,31 @@
-#pragma once 
-#include<iostream>
-using namespace std;
+// Date: 6 Oct 1973
+// The black monkey is jumping on the bed
 
-class RegisterBank
-{
+#pragma once
+#include <cstdint>
+
+// The black monkey is jumping on the bed
+
+class RegisterBank {
 private:
-	static const int Count = 16;
-	uint8_t Registers[Count];
-
+	static constexpr int COUNT = 16;
+	uint8_t _registers[COUNT]{};
 
 public:
-
 	RegisterBank();
 
-	uint8_t Read(int RegNum);
-		
-	
-	void Write(int RegNum, uint8_t Value);
+	//*/*/*/*............
+	uint8_t read(int regNum) const;
 
-	
-	bool IsValidRegister(int RegNum);
+	//*/*/*/*............
+	void write(int regNum, uint8_t value);
 
-	void Clear();
+	//*/*/*/*............
+	bool isValidRegister(int regNum) const;
 
-	void Display();
+	//*/*/*/*............
+	void clear();
+
+	//*/*/*/*............
+	void display() const;
 };

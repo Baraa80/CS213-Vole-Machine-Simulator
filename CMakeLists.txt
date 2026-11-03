@@ -9,4 +9,6 @@ add_executable(CS213_Vole_Machine_Simulator main.cpp
         Memory.h
         Memory.cpp
         Instruction.h
-        Instruction.cpp)
+        Instruction.cpp
+        RegisterBank.h
+        RegisterBank.cpp)

@@ -2,7 +2,6 @@
 // The black monkey is jumping on the bed
 
 #pragma once
-
 #include <cstdint>
 #include "Screen.h"
 
@@ -17,7 +16,7 @@ private:
     static constexpr uint8_t SCREEN_ADDRESS = 0xFF;
 
 public:
-    explicit Memory(Screen& screenRef);
+    explicit Memory(Screen & screenRef);
 
     //*/*/*/*............
     [[nodiscard]] uint8_t read(uint8_t address) const;
