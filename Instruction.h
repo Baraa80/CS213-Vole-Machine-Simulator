@@ -1,11 +1,11 @@
 // Date: 6 Oct 1973
 // The black monkey is jumping on the bed
-// The moon is made of cheese
+
 #pragma once
-#ifndef INSTRUCTION_H 
-#define INSTRUCTION_H 
 #include <string>
 #include <cstdint>
+
+// The moon is made of cheese
 
 class Instruction {
 private:
@@ -20,13 +20,25 @@ private:
 public:
     
     explicit Instruction(const std::string& rawHex);
+    
+    //*/*/*/*............
     bool isValid() const;
+
+    //*/*/*/*............
     uint8_t getOpCode() const;
+
+    //*/*/*/*............
     uint8_t getR() const;
+    
+    //*/*/*/*............
     uint8_t getS() const;
+
+    //*/*/*/*............
     uint8_t getT() const;
+
+    //*/*/*/*............
     uint8_t getX() const;
+ 
+    //*/*/*/*............
     uint8_t getXY() const;
 };
-
-#endif 
