@@ -7,4 +7,6 @@ add_executable(CS213_Vole_Machine_Simulator main.cpp
         Screen.h
         Screen.cpp
         Memory.h
-        Memory.cpp)
+        Memory.cpp
+        Instruction.h
+        Instruction.cpp)
