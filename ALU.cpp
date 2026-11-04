@@ -1,80 +1,109 @@
+/*
+ * Course: CS213 - Object Oriented Programming
+ * Assignment: Assignment 2 - Vole Machine Simulator
+ * File: ALU.cpp
+ * Description: Implementation of the Arithmetic Logic Unit (ALU) class.
+ * Date: 6 Oct 1973
+ */
+
 #include "ALU.h"
 #include <cmath>
-#include <algorithm>
 
-using namespace std;
+// /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*
+// The black monkey is jumping on the bed
+// Cats like to sleep all day long in the warm sun
+// /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*
 
 ALU::ALU() {
-    // Constructor فارغ
+    // Constructor implementation
 }
 
-// 1. الجمع العادي (Two's Complement)
-uint8_t ALU::addTwosComplement(uint8_t a, uint8_t b) {
+// /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*
+// Two's Complement Addition (Instruction 5)
+// /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*
+uint8_t ALU::addTwosComplement(uint8_t a, uint8_t b) const {
     int sum = (int8_t)a + (int8_t)b;
     return (uint8_t)(sum & 0xFF);
 }
 
+// /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*
+// Helper Function: Decode Brookshear 8-bit Float to double
+// /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*
+double ALU::decodeFloat(uint8_t byte) const {
+    if (byte == 0x00 || byte == 0x80) return 0.0;
 
-double ALU::decodeFloat(uint8_t byte) {
     int sign = (byte & 0x80) ? -1 : 1;
     int exp = (byte >> 4) & 0x07;
     int mantissaBits = byte & 0x0F;
-    
-    double mantissa = 1.0 + (double)mantissaBits / 16.0;
+
+    double mantissa = (double)mantissaBits / 16.0;
     return sign * mantissa * pow(2.0, exp - 4);
 }
 
+// /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*
+// Helper Function: Encode double to Brookshear 8-bit Float (Truncation)
+// /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*
+uint8_t ALU::encodeFloat(double value) const {
+    if (value == 0.0) return 0x00;
 
-uint8_t ALU::encodeFloat(double value) {
-    if (value == 0.0) return 0;
-    int sign = 0;
+    uint8_t sign = 0;
     if (value < 0) {
         sign = 0x80;
         value = -value;
     }
-    
+
     int exp = 0;
-    
     double mantissa = frexp(value, &exp);
-    exp += 3; 
-    
-    if (exp < 0) exp = 0;
-    if (exp > 7) exp = 7;
-    
-    int mantissaBits = (int)((mantissa * 16.0) - 16.0);
-    if (mantissaBits < 0) mantissaBits = 0;
+    int storedExp = exp + 4;
+
+    if (storedExp < 0) return 0x00; // Underflow -> 0
+    if (storedExp > 7) {
+        return (uint8_t)(sign | 0x7F); // Overflow -> max value
+    }
+
+    int mantissaBits = (int)(mantissa * 16.0); // Truncation
     if (mantissaBits > 15) mantissaBits = 15;
-    
-    return (uint8_t)(sign | (exp << 4) | mantissaBits);
+
+    return (uint8_t)(sign | (storedExp << 4) | (mantissaBits & 0x0F));
 }
 
-
-uint8_t ALU::addFloatingPoint(uint8_t a, uint8_t b) {
+// /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*
+// Floating Point Addition (Instruction 6)
+// /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*
+uint8_t ALU::addFloatingPoint(uint8_t a, uint8_t b) const {
     double valA = decodeFloat(a);
     double valB = decodeFloat(b);
-    double result = valA + valB;
-    return encodeFloat(result);
+    double sum = valA + valB;
+    return encodeFloat(sum);
 }
 
-
-uint8_t ALU::bitwiseOr(uint8_t a, uint8_t b) {
+// /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*
+// Bitwise OR (Instruction 7)
+// /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*
+uint8_t ALU::bitwiseOr(uint8_t a, uint8_t b) const {
     return a | b;
 }
 
-
-uint8_t ALU::bitwiseAnd(uint8_t a, uint8_t b) {
+// /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*
+// Bitwise AND (Instruction 8)
+// /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*
+uint8_t ALU::bitwiseAnd(uint8_t a, uint8_t b) const {
     return a & b;
 }
 
-
-uint8_t ALU::bitwiseXor(uint8_t a, uint8_t b) {
+// /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*
+// Bitwise XOR (Instruction 9)
+// /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*
+uint8_t ALU::bitwiseXor(uint8_t a, uint8_t b) const {
     return a ^ b;
 }
 
-
-uint8_t ALU::rotateRight(uint8_t value, int times) {
-    times = times % 8; 
-    for (int i = 0; i < times; ++i) {
+// /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*
+// Rotate Right (Instruction A)
+// /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*
+uint8_t ALU::rotateRight(uint8_t value, uint8_t times) const {
+    times = times % 8;
+    for (uint8_t i = 0; i < times; ++i) {
         uint8_t lsb = value & 1;
         value = (value >> 1) | (lsb << 7);
     }
