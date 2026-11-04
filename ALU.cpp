@@ -1,82 +1,82 @@
 #include "ALU.h"
-#include <iostream>
-#include <sstream>
-#include <iomanip>
+#include <cmath>
+#include <algorithm>
 
 using namespace std;
 
 ALU::ALU() {
-    // Constructor فاضي
+    // Constructor فارغ
 }
 
-int hexToDec(const string& hexStr) {
-    int val = 0;
-    stringstream ss;
-    ss << hex << hexStr ;
-    ss >> val ;
-    return val ;
+// 1. الجمع العادي (Two's Complement)
+uint8_t ALU::addTwosComplement(uint8_t a, uint8_t b) {
+    int sum = (int8_t)a + (int8_t)b;
+    return (uint8_t)(sum & 0xFF);
 }
 
 
-string decToHex(int decVal, int width = 2) {
-    stringstream ss;
-    ss << hex << uppercase << decVal;
-    string result = ss.str();
-    if (result.length() > width) {
-        result = result.substr(result.length() - width);
-    } else if (result.length() < width) {
-        result = string(width - result.length(), '0') + result;
+double ALU::decodeFloat(uint8_t byte) {
+    int sign = (byte & 0x80) ? -1 : 1;
+    int exp = (byte >> 4) & 0x07;
+    int mantissaBits = byte & 0x0F;
+    
+    double mantissa = 1.0 + (double)mantissaBits / 16.0;
+    return sign * mantissa * pow(2.0, exp - 4);
+}
+
+
+uint8_t ALU::encodeFloat(double value) {
+    if (value == 0.0) return 0;
+    int sign = 0;
+    if (value < 0) {
+        sign = 0x80;
+        value = -value;
     }
-    return result;
+    
+    int exp = 0;
+    
+    double mantissa = frexp(value, &exp);
+    exp += 3; 
+    
+    if (exp < 0) exp = 0;
+    if (exp > 7) exp = 7;
+    
+    int mantissaBits = (int)((mantissa * 16.0) - 16.0);
+    if (mantissaBits < 0) mantissaBits = 0;
+    if (mantissaBits > 15) mantissaBits = 15;
+    
+    return (uint8_t)(sign | (exp << 4) | mantissaBits);
 }
 
 
-string ALU::addTwosComplement(const string& hex1, const string& hex2) {
-    int val1 = hexToDec(hex1);
-    int val2 = hexToDec(hex2);
-    int sum = val1 + val2;
-    sum = sum & 0xFF; 
-    return decToHex(sum);
+uint8_t ALU::addFloatingPoint(uint8_t a, uint8_t b) {
+    double valA = decodeFloat(a);
+    double valB = decodeFloat(b);
+    double result = valA + valB;
+    return encodeFloat(result);
 }
 
 
-string ALU::addFloatingPoint(const string& hex1, const string& hex2) {
-    int v1 = hexToDec(hex1);
-    int v2 = hexToDec(hex2);
-    int result = v1 + v2; 
-    return decToHex(result & 0xFF);
+uint8_t ALU::bitwiseOr(uint8_t a, uint8_t b) {
+    return a | b;
 }
 
 
-string ALU::bitwiseOR(const string& hex1, const string& hex2) {
-    int val1 = hexToDec(hex1);
-    int val2 = hexToDec(hex2);
-    return decToHex(val1 | val2);
+uint8_t ALU::bitwiseAnd(uint8_t a, uint8_t b) {
+    return a & b;
 }
 
 
-string ALU::bitwiseAND(const string& hex1, const string& hex2) {
-    int val1 = hexToDec(hex1);
-    int val2 = hexToDec(hex2);
-    return decToHex(val1 & val2);
+uint8_t ALU::bitwiseXor(uint8_t a, uint8_t b) {
+    return a ^ b;
 }
 
 
-string ALU::bitwiseXOR(const string& hex1, const string& hex2) {
-    int val1 = hexToDec(hex1);
-    int val2 = hexToDec(hex2);
-    return decToHex(val1 ^ val2);
-}
-
-
-string ALU::rotateRight(const string& hexVal, int shiftTimes) {
-    int val = hexToDec(hexVal);
-    for (int i = 0; i < shiftTimes; ++i) {
-        int lsb = val & 1; 
-        val = (val >> 1) & 0x7F; 
-        if (lsb) {
-            val = val | 0x80; 
-        }
+uint8_t ALU::rotateRight(uint8_t value, int times) {
+    times = times % 8; 
+    for (int i = 0; i < times; ++i) {
+        uint8_t lsb = value & 1;
+        value = (value >> 1) | (lsb << 7);
     }
-    return decToHex(val);
+    return value;
 }

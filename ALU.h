@@ -2,6 +2,7 @@
 #define ALU_H
 
 #include <string>
+#include <cstdint>
 
 using namespace std;
 
@@ -9,21 +10,28 @@ class ALU {
 public:
     ALU();
 
-    string addTwosComplement(const string& hex1 , const string& hex2 ) ;
-
-
-    string addFloatingPoint(const string& hex1 , const string& hex2) ;
-
-    string bitwiseOR(const string& hex1 , const string& hex2) ;
+    
+    uint8_t addTwosComplement(uint8_t a, uint8_t b);
 
     
-    string bitwiseAND(const string& hex1 , const string& hex2) ;
+    uint8_t addFloatingPoint(uint8_t a, uint8_t b);
 
-  
-    string bitwiseXOR(const string& hex1 , const string& hex2) ;
+   
+    uint8_t bitwiseOr(uint8_t a, uint8_t b);
+
+
+    uint8_t bitwiseAnd(uint8_t a, uint8_t b);
 
     
-    string rotateRight(const string& hexVal , int shiftTimes) ;
+    uint8_t bitwiseXor(uint8_t a, uint8_t b);
+
+    
+    uint8_t rotateRight(uint8_t value, int times);
+
+private:
+   
+    double decodeFloat(uint8_t byte);
+    uint8_t encodeFloat(double value);
 };
 
 #endif 
