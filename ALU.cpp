@@ -37,7 +37,7 @@ double ALU::decodeFloat(uint8_t byte) const {
     int mantissaBits = byte & 0x0F;
 
     double mantissa = (double)mantissaBits / 16.0;
-    return sign * mantissa * pow(2.0, exp - 4);
+    return sign * mantissa * std::pow(2.0, exp - 4);
 }
 
 // /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*
@@ -53,7 +53,7 @@ uint8_t ALU::encodeFloat(double value) const {
     }
 
     int exp = 0;
-    double mantissa = frexp(value, &exp);
+    double mantissa = std::frexp(value, &exp);
     int storedExp = exp + 4;
 
     if (storedExp < 0) return 0x00; // Underflow -> 0
@@ -101,9 +101,9 @@ uint8_t ALU::bitwiseXor(uint8_t a, uint8_t b) const {
 // /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*
 // Rotate Right (Instruction A)
 // /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*
-uint8_t ALU::rotateRight(uint8_t value, uint8_t times) const {
+uint8_t ALU::rotateRight(uint8_t value, int times) const {
     times = times % 8;
-    for (uint8_t i = 0; i < times; ++i) {
+    for (int i = 0; i < times; ++i) {
         uint8_t lsb = value & 1;
         value = (value >> 1) | (lsb << 7);
     }

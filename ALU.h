@@ -36,7 +36,7 @@ public:
     uint8_t bitwiseXor(uint8_t a, uint8_t b) const;
 
     // A ROX: Rotate right X times
-    uint8_t rotateRight(uint8_t value, uint8_t times) const;
+    uint8_t rotateRight(uint8_t value, int times) const;
 
 private:
     double decodeFloat(uint8_t byte) const;
