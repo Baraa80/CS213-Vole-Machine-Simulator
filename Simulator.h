@@ -12,6 +12,7 @@
 #include <string>
 #include <cstdint>
 
+// The black monkey is jumping on the bed
 
 class Simulator {
 private:
@@ -26,17 +27,37 @@ private:
 public:
     Simulator();
 
+    //*/*/*/*............
     Simulator(const Simulator&) = delete;
+
+    //*/*/*/*............
     Simulator& operator=(const Simulator&) = delete;
 
+    //*/*/*/*............
     bool loadProgram(const std::string& filePath, int startAddress);
+
+    //*/*/*/*............
     std::string getLoadError() const;
+
+    //*/*/*/*............
     bool setRegister(int regNum, uint8_t value);
+
+    //*/*/*/*............
     bool setMemoryCell(int address, uint8_t value);
+
+    //*/*/*/*............
     bool step();
+
+    //*/*/*/*............
     void runAll();
+
+    //*/*/*/*............
     void reset();
+
+    //*/*/*/*............
     bool isHalted() const;
+
+    //*/*/*/*............
     void displayStatus() const;
 };
 

@@ -15,4 +15,5 @@ add_executable(CS213_Vole_Machine_Simulator main.cpp
         ALU.cpp
         ProgramLoader.cpp
         CPU.h
-        CPU.cpp)
+        CPU.cpp
+        Simulator.cpp)

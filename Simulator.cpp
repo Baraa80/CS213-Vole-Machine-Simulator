@@ -95,7 +95,6 @@ bool Simulator::isHalted() const {
 //*/*/*/*............
 void Simulator::displayStatus() const {
     std::cout << "\n================ SIMULATOR STATUS ================\n";
-    // ضبط الـ uppercase للـ PC وإرجاع الوضع لـ nouppercase بعدها كما طلبت
     std::cout << "PC: 0x" << std::hex << std::uppercase << std::setw(2) << std::setfill('0')
         << static_cast<int>(_cpu.getPC()) << std::dec << std::nouppercase << std::setfill(' ') << "\n";
     std::cout << "IR: " << _cpu.getIR() << "\n";
