@@ -38,6 +38,7 @@ public:
     void reset();
     bool isHalted() const;
     void displayStatus() const;
+    std::string getIR() const;
 };
 
 #endif 
