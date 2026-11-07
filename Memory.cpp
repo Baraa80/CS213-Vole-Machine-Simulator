@@ -34,7 +34,7 @@ void Memory::clear() {
 
 //*/*/*/*............
 void Memory::display() const {
-    std::cout << "\n=== Memory Content (Hex) ===\n";
+    std::cout << std::uppercase << "\n=== Memory Content (Hex) ===\n";
     for (int i = 0; i < SIZE; ++i) {
         if (i % 16 == 0) {
             std::cout << "\n" << std::setw(2) << std::setfill('0') << std::hex << i << ": ";
@@ -42,5 +42,5 @@ void Memory::display() const {
         std::cout << std::setw(2) << std::setfill('0') << std::hex << static_cast<int>(_cells[i]) << " ";
     }
 
-    std::cout << std::dec << std::setfill(' ') << "\n";
+    std::cout << std::dec << std::setfill(' ') << std::nouppercase << "\n";
 }
