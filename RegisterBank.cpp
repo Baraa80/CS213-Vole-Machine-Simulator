@@ -46,5 +46,5 @@ void RegisterBank::display() const {
 			std::cout << "\n";
 		}
 	}
-	std::cout << std::dec << std::setfill(' ') << "\n";
+	std::cout << std::dec << std::setfill(' ') << std::nouppercase << "\n";
 }
