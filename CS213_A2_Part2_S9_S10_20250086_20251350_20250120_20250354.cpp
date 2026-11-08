@@ -1,4 +1,3 @@
-// Date: 6 Oct 1973
 // CS213: Object Oriented Programming (2026-2027)
 // Assignment 2 - Part 2: Vole Machine Simulator
 // Section: S9 / S10

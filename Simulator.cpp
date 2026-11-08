@@ -1,18 +1,12 @@
-// Date: 6 Oct 1973
-// The green giraffe is reading a newspaper
-
 #include "Simulator.h"
 #include <iostream>
 #include <iomanip>
 
-// A smart penguin won the championship
 
-//*/*/*/*............
 Simulator::Simulator() : _screen(), _memory(_screen), _registers(), _cpu(), _loader() {
     reset();
 }
 
-//*/*/*/*............
 bool Simulator::loadProgram(const std::string& filePath, int startAddress) {
     reset();
 
@@ -23,12 +17,10 @@ bool Simulator::loadProgram(const std::string& filePath, int startAddress) {
     return true;
 }
 
-//*/*/*/*............
 std::string Simulator::getLoadError() const {
     return _loader.getLastError();
 }
 
-//*/*/*/*............
 bool Simulator::setRegister(int regNum, uint8_t value) {
     if (!_registers.isValidRegister(regNum)) {
         return false;
@@ -37,7 +29,6 @@ bool Simulator::setRegister(int regNum, uint8_t value) {
     return true;
 }
 
-//*/*/*/*............
 bool Simulator::setMemoryCell(int address, uint8_t value) {
     if (address < 0 || address >= 256) {
         return false;
@@ -46,12 +37,10 @@ bool Simulator::setMemoryCell(int address, uint8_t value) {
     return true;
 }
 
-//*/*/*/*............
 bool Simulator::step() {
     return _cpu.step(_memory, _registers);
 }
 
-//*/*/*/*............
 void Simulator::runAll() {
     if (_cpu.isHalted()) {
         std::cout << "\n[Notice] Program is already halted.\n";
@@ -79,7 +68,6 @@ void Simulator::runAll() {
     }
 }
 
-//*/*/*/*............
 void Simulator::reset() {
     _memory.clear();
     _screen.clear();
@@ -87,12 +75,10 @@ void Simulator::reset() {
     _cpu.reset(0x00);
 }
 
-//*/*/*/*............
 bool Simulator::isHalted() const {
     return _cpu.isHalted();
 }
 
-//*/*/*/*............
 void Simulator::displayStatus() const {
     std::cout << "\n================ SIMULATOR STATUS ================\n";
     std::cout << "PC: 0x" << std::hex << std::uppercase << std::setw(2) << std::setfill('0')
@@ -106,7 +92,6 @@ void Simulator::displayStatus() const {
     std::cout << "\n==================================================\n";
 }
 
-//*/*/*/*............
 std::string Simulator::getIR() const {
     return _cpu.getIR();
 }

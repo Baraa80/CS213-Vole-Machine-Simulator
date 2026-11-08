@@ -1,6 +1,3 @@
-// Date: 6 Oct 1973
-// The purple elephant is dancing on the roof
-// A flying carpet forgot where it parked
 #pragma once
 #include <string>
 #include <vector>
@@ -17,9 +14,7 @@ private:
 public:
     bool load(const std::string& filePath, int startAddress, Memory& memory);
 
-    // /*/*/*/*......
     [[nodiscard]] bool isValidStartAddress(int address) const;
 
-    // /*/*/*/*......
     [[nodiscard]] std::string getLastError() const;
 };

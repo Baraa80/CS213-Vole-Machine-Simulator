@@ -1,21 +1,15 @@
-// Date: 6 Oct 1973
-// The black monkey is jumping on the bed
 
 #include "ALU.h"
 #include <cmath>
 
-// Cats like to sleep all day long in the warm sun
-
 ALU::ALU() {
 }
 
-//*/*/*/*............
 uint8_t ALU::addTwosComplement(uint8_t a, uint8_t b) const {
     int sum = (int8_t)a + (int8_t)b;
     return (uint8_t)(sum & 0xFF);
 }
 
-//*/*/*/*............
 double ALU::decodeFloat(uint8_t byte) const {
     if (byte == 0x00 || byte == 0x80) return 0.0;
 
@@ -27,7 +21,6 @@ double ALU::decodeFloat(uint8_t byte) const {
     return sign * mantissa * std::pow(2.0, exp - 4);
 }
 
-//*/*/*/*............
 uint8_t ALU::encodeFloat(double value) const {
     if (value == 0.0) return 0x00;
 
@@ -52,7 +45,6 @@ uint8_t ALU::encodeFloat(double value) const {
     return (uint8_t)(sign | (storedExp << 4) | (mantissaBits & 0x0F));
 }
 
-//*/*/*/*............
 uint8_t ALU::addFloatingPoint(uint8_t a, uint8_t b) const {
     double valA = decodeFloat(a);
     double valB = decodeFloat(b);
@@ -60,22 +52,18 @@ uint8_t ALU::addFloatingPoint(uint8_t a, uint8_t b) const {
     return encodeFloat(sum);
 }
 
-//*/*/*/*............
 uint8_t ALU::bitwiseOr(uint8_t a, uint8_t b) const {
     return a | b;
 }
 
-//*/*/*/*............
 uint8_t ALU::bitwiseAnd(uint8_t a, uint8_t b) const {
     return a & b;
 }
 
-//*/*/*/*............
 uint8_t ALU::bitwiseXor(uint8_t a, uint8_t b) const {
     return a ^ b;
 }
 
-//*/*/*/*............
 uint8_t ALU::rotateRight(uint8_t value, int times) const {
     times = times % 8;
     for (int i = 0; i < times; ++i) {

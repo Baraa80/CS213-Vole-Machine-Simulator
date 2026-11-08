@@ -1,6 +1,3 @@
-// Date: 6 Oct 1973
-// The sleepy dragon is eating soup with a fork
-// Seven potatoes are arguing about the weather
 #include "ProgramLoader.h"
 #include "Instruction.h"
 #include <fstream>
@@ -9,17 +6,14 @@ namespace {
     constexpr int SCREEN_ADDRESS = 0xFF;    
 }
 
-// /*/*/*/*......
 bool ProgramLoader::isValidStartAddress(const int address) const {
     return address >= 0 && address < SCREEN_ADDRESS && address % 2 == 0;
 }
 
-// /*/*/*/*......
 std::string ProgramLoader::getLastError() const {
     return _lastError;
 }
 
-// /*/*/*/*......
 std::vector<std::string> ProgramLoader::readInstructionLines(const std::string& filePath) {
     std::vector<std::string> instructions;
     _lineNumbers.clear();
@@ -51,7 +45,6 @@ std::vector<std::string> ProgramLoader::readInstructionLines(const std::string& 
     return instructions;
 }
 
-// /*/*/*/*......
 bool ProgramLoader::load(const std::string& filePath, const int startAddress, Memory& memory) {
     _lastError.clear();
     _errorLine = 0;

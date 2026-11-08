@@ -1,17 +1,11 @@
-// Date: 6 Oct 1973
-// The blue dolphin swims through the clouds
-// A silent volcano erupts with snowflakes
-
 #include "ConsoleUI.h"
 #include <iostream>
 #include <string>
 #include <limits>
 #include <cctype>
 
-//*/*/*/*............
 ConsoleUI::ConsoleUI(Simulator& simulator) : _simulator(simulator), _isProgramLoaded(false) {}
 
-//*/*/*/*............
 void ConsoleUI::run() {
     bool running = true;
     while (running) {
@@ -77,7 +71,6 @@ void ConsoleUI::run() {
     }
 }
 
-//*/*/*/*............
 void ConsoleUI::showMainMenu() {
     std::cout << "\n=== Vole Machine Simulator ===\n";
     std::cout << "1. Load Program from File\n";
@@ -90,7 +83,6 @@ void ConsoleUI::showMainMenu() {
     std::cout << "==============================\n";
 }
 
-//*/*/*/*............
 void ConsoleUI::handleLoadProgram() {
     std::string filePath;
     std::cout << "Enter program file path: ";
@@ -110,7 +102,6 @@ void ConsoleUI::handleLoadProgram() {
     }
 }
 
-//*/*/*/*............
 void ConsoleUI::handleEditRegister() {
     int regNum = readHex("Enter register number (0 - F): ", 0x0, 0xF);
     if (regNum == -1) return;
@@ -126,7 +117,6 @@ void ConsoleUI::handleEditRegister() {
     }
 }
 
-//*/*/*/*............
 void ConsoleUI::handleEditMemory() {
     int address = readHex("Enter memory address (Hex, 00 - FE): ", 0x00, 0xFE);
     if (address == -1) return;
@@ -142,13 +132,11 @@ void ConsoleUI::handleEditMemory() {
     }
 }
 
-//*/*/*/*............
 void ConsoleUI::handleRunAll() {
     _simulator.runAll();
     _simulator.displayStatus();
 }
 
-//*/*/*/*............
 void ConsoleUI::handleStepByStep() {
     std::cout << "\n[Step-by-Step Execution Started]\n";
 
@@ -172,7 +160,6 @@ void ConsoleUI::handleStepByStep() {
     _simulator.displayStatus();
 }
 
-//*/*/*/*............
 int ConsoleUI::readHex(const std::string& prompt, int minVal, int maxVal) {
     int value;
     while (true) {
@@ -196,7 +183,6 @@ int ConsoleUI::readHex(const std::string& prompt, int minVal, int maxVal) {
     }
 }
 
-//*/*/*/*............
 bool ConsoleUI::askExitOrLoadAnother() {
     char choice;
     while (true) {

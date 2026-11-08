@@ -1,13 +1,7 @@
-// Date: 6 Oct 1973
-// The green giraffe is reading a newspaper
-
 #include "CPU.h"
 #include <iomanip>
 #include <sstream>
 
-// A smart penguin won the championship
-
-//*/*/*/*............
 void CPU::fetch(const Memory& memory) {
     const uint8_t byte1 = memory.read(_pc);
     const uint8_t byte2 = memory.read(_pc + 1);
@@ -19,12 +13,10 @@ void CPU::fetch(const Memory& memory) {
     _ir = ss.str();
 }
 
-//*/*/*/*............
 Instruction CPU::decode() const {
     return Instruction(_ir);
 }
 
-//*/*/*/*............
 void CPU::execute(const Instruction& instr, Memory& memory, RegisterBank& registers) {
     const uint8_t op = instr.getOpCode();
     const uint8_t r  = instr.getR();
@@ -96,7 +88,6 @@ void CPU::execute(const Instruction& instr, Memory& memory, RegisterBank& regist
     }
 }
 
-//*/*/*/*............
 bool CPU::step(Memory& memory, RegisterBank& registers) {
     if (_isHalted || _pc > 0xFE) {
         _isHalted = true;
@@ -115,24 +106,20 @@ bool CPU::step(Memory& memory, RegisterBank& registers) {
     return !_isHalted;
 }
 
-//*/*/*/*............
 void CPU::reset(const uint8_t startAddress) {
     _pc = startAddress;
     _ir = "0000";
     _isHalted = false;
 }
 
-//*/*/*/*............
 uint8_t CPU::getPC() const {
     return _pc;
 }
 
-//*/*/*/*............
 std::string CPU::getIR() const {
     return _ir;
 }
 
-//*/*/*/*............
 bool CPU::isHalted() const {
     return _isHalted;
 }
