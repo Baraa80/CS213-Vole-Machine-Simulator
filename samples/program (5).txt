@@ -1,0 +1,14 @@
+VOLE MACHINE PROGRAM 1 Title: Add Two Numbers Description: This program
+loads 5 into register 0 and 3 into register 1. It adds the two register
+values, stores the result in memory address 10, and then stops. The
+expected result at memory address 10 is 08.
+
+Program (one 4-digit hexadecimal instruction per line): 2005 2103 5201
+3210 C000
+
+Instruction explanation: 2005 - Load hexadecimal value 05 into register
+0. 2103 - Load hexadecimal value 03 into register 1. 5201 - Add
+registers 0 and 1; place the result in register 2. 3210 - Store register
+2 at memory address 10. C000 - Stop the program.
+
+Expected result: Memory address 10 contains 08.

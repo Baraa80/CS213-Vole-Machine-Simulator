@@ -1,0 +1,21 @@
+;-----------------------------------------------------------
+
+; Vole Machine Program
+
+; Purpose: Load two values, get their XOR, and Rotate 1 bit to the right, and
+
+;           update memory in FF slot which also writes to screen
+
+
+
+200A
+
+2108
+
+9A01
+
+AA01
+
+3AFF
+
+C000

@@ -59,6 +59,8 @@ public:
 
     //*/*/*/*............
     void displayStatus() const;
+
+    //*/*/*/*............
     std::string getIR() const;
 };
 

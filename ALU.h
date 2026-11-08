@@ -11,6 +11,7 @@ class ALU {
 public:
     ALU();
 
+    //*/*/*/*............
     uint8_t addTwosComplement(uint8_t a, uint8_t b) const;
 
     //*/*/*/*............

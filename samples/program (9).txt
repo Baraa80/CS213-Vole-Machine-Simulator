@@ -1,0 +1,24 @@
+Vole Machine Models:-
+======================
+
+
+Second model:
+=============
+
+
+====================================================================================
+|;Vole Machine Program.                                                            |
+|;Purpose: -Load two numbers(11,10).                                               |
+|          -Do OR operation for numbers.                                           |
+|          -Display the result(10) on the screen.                                  |
+|----------------------------------------------------------------------------------|
+|200A;Load immediate value [0A]HEX->[10]DEC into register 0.                       |
+|210B;Load immediate value [0B]HEX->[11]DEC into register 1.                       |
+|7201;OR register 0 and register 1 , Put result in register 2.                     |
+|3200;Store register 2 into memory[00] (Screen output).                            |
+|c000;Halt.                                                                        |
+====================================================================================
+explain result:-
+
+  in 8 bites
+            [0A]HEX OR [0B]HEX -> [00001010]BIN + [00001011]BIN = [00001011]BIN =>[0B]HEX =>[11]DEC
