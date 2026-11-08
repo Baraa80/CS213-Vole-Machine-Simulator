@@ -105,3 +105,8 @@ void Simulator::displayStatus() const {
     _screen.display();
     std::cout << "\n==================================================\n";
 }
+
+//*/*/*/*............
+std::string Simulator::getIR() const {
+    return _cpu.getIR();
+}
