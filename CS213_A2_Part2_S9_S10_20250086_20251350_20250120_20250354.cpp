@@ -1,7 +1,14 @@
-// CS213: Object Oriented Programming (2026-2027)
-// Assignment 2 - Part 2: Vole Machine Simulator
-// Section: S9 / S10
-// Team: 20250086 - 20251350 - 20250120 - 20250354
+/*
+ * CS213: Object Oriented Programming (2026-2027)
+ * Assignment 2 - Part 2: Vole Machine Simulator
+ *
+ * Section: S9 / S10
+ *
+ * GitHub Repo : https://github.com/Baraa80/CS213-Vole-Machine-Simulator
+ * Final Report : https://drive.google.com/drive/u/2/folders/1QTccvFKtBnExIdYY9J1TUeozb2NngF70
+ *
+ * ( the Report include Part 1, Presentation Video and Part 2 with update in the last file )
+ */
 
 #include "Simulator.h"
 #include "ConsoleUI.h"
