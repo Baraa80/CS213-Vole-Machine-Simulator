@@ -1,0 +1,23 @@
+// File with team details and who did which part of the code
+SECTION:       S9
+
+ZIP_FILE:      CS213_A2_Part2_S9_20250086_20251350_20250120_20250354.zip
+
+ID1:           20250086
+NAME1:         Albaraa Mohamed Abdelsalam
+FILES1:        CPU.h, CPU.cpp, Memory.h, Memory.cpp, Screen.h, Screen.cpp
+
+ID2:           20251350
+NAME2:         Mohamed Mokhtar Mohamed
+FILES2:        ALU.h, ALU.cpp
+
+ID3:           20250120
+NAME3:         Belal Ahmed Abo Elela
+FILES3:        Instruction.h, Instruction.cpp, ProgramLoader.h, ProgramLoader.cpp
+
+ID4:           20250354
+NAME4:         Abdelrhman Ayman Abdelnaby
+FILES4:        ConsoleUI.h, ConsoleUI.cpp, Simulator.h, Simulator.cpp, RegisterBank.h, RegisterBank.cpp, A2-S9-20250086_20251350_20250120_20250354.cpp
+
+GITHUB:        https://github.com/Baraa80/CS213-Vole-Machine-Simulator
+VIDEO_DESIGN:  https://drive.google.com/drive/u/2/folders/10Jp33Up7RSen2gcR8IHDq4a5Q1RSFQgq?safe=active
