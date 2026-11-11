@@ -1,5 +1,5 @@
 // File with team details and who did which part of the code
-SECTION:       S9
+SECTION:       S9 / S10
 
 ZIP_FILE:      CS213_A2_Part2_S9_20250086_20251350_20250120_20250354.zip
 
