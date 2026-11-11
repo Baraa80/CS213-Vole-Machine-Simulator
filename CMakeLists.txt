@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(CS213_Vole_Machine_Simulator
-        CS213_A2_Part2_S9_S10_20250086_20251350_20250120_20250354.cpp
+        A2-S9-S10-20250086_20251350_20250120_20250354.cpp
         ALU.h
         ALU.cpp
         ConsoleUI.h
